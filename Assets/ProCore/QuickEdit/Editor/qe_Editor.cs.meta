@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: fb84a8fdda7e91f40b252283565cefcf
+labels:
+- Mesh
+- Vertex
+- Face
+- Triangle
+- Edit
+- Model
+- UV
+- Edge
+- Geometry
+- blender
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
