@@ -27,11 +27,15 @@ public class Game : MonoBehaviour {
     public Text hudMeters;
     public Text hudBestMark;
     public Text pauseBestMark;
+    public InputField playerName;
 
     [System.NonSerialized]
     public InControl.InControlManager inControl;
     [System.NonSerialized]
     public InControl.TouchManager inControlTouch;
+
+
+    private static int lastBestMark = 0;
 
 
     void Awake()
@@ -107,19 +111,20 @@ public class Game : MonoBehaviour {
     public static GameState state = GameState.PAUSE;
 
     public static void StartGame(){
-            state = GameState.PLAYING;
-            GetGUI().Hide("PauseMenu");
-            GetGUI().Show("UI");
+        state = GameState.PLAYING;
+        GetGUI().Hide("PauseMenu");
+        GetGUI().Show("UI");
 
-            Game game = Get();
+        Game game = Get();
             
-            if (game.controlledPlayer) {
-                game.controlledPlayer.Respawn();
-            }
+        if (game.controlledPlayer) {
+            game.controlledPlayer.Respawn();
+        }
 
-            game.inControlTouch.controlsEnabled = true;
+        game.inControlTouch.controlsEnabled = true;
 
-            game.hudBestMark.text = game.pauseBestMark.text;
+        game.hudBestMark.text = game.pauseBestMark.text;
+        lastBestMark = int.Parse(game.pauseBestMark.text);
     }
 
     public static void PauseGame() {
@@ -134,7 +139,11 @@ public class Game : MonoBehaviour {
         game.inControlTouch.controlsEnabled = false;
 
         game.pauseBestMark.text = game.hudBestMark.text;
-
+        int actualBestMark = int.Parse(game.hudBestMark.text);
+        if (lastBestMark <= actualBestMark) {
+            //Throw name selection
+            Game.GetCache().SaveBestMark(game.scene.seed, game.playerName.text, actualBestMark);
+        }
         //Show 1 of each 4 times an ad
         if (game.adsEnabled && Random.Range(0f, 4f) > 3f) {
             game.ads.Show();
@@ -143,8 +152,8 @@ public class Game : MonoBehaviour {
 
     public static void StopGame() {
         state = GameState.STOP;
-        GetGUI().Hide("UI");
-        GetGUI().Hide("PauseMenu");
+        //GetGUI().Hide("UI");
+        //GetGUI().Hide("PauseMenu");
         if(TNManager.isConnected)
             TNManager.Disconnect();
         else

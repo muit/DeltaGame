@@ -157,7 +157,6 @@ public class UnityAdsHelper : MonoBehaviour
 		{
 		case ShowResult.Finished:
 			Debug.Log("The ad was successfully shown.");
-            Game.StartGame();
 			if (!object.ReferenceEquals(_handleFinished,null)) _handleFinished();
 			break;
 		case ShowResult.Skipped:

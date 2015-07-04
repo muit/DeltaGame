@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Menu : MonoBehaviour {
     [Header("References")]
     public InputField seedInput;
     public Button joinButton;
+    public ScrollList bestMarks;
+    public SaveLoad cache;
 
     private TNManager tnManager;
 
 	void Start () {
         tnManager = FindObjectOfType<TNManager>();
+        if (!bestMarks) {
+            bestMarks = FindObjectOfType<ScrollList>();
+        }
+        bestMarks.PopulateList();
 	}
 
 
@@ -20,9 +26,13 @@ public class Menu : MonoBehaviour {
 
     public void ShowSeed() {
         seedInput.text = FindObjectOfType<SaveLoad>().LoadSeed();
+        //Load marks
+        bestMarks.PopulateList(cache.LoadBestMark(seedInput.text));
     }
     public void SaveSeed() {
         FindObjectOfType<SaveLoad>().SaveSeed(seedInput.text);
+        //Load marks
+        cache.LoadBestMark(seedInput.text);
     }
 
     public void SetJoinButtonError(bool value) {
