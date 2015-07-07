@@ -87,7 +87,9 @@ public class Scene : MonoBehaviour {
         List<FloorPrefab> limitedPrefabs;
         if (lastPrefab != null)
         {
-            limitedPrefabs = prefabs.FindAll(x => x.canRepeat || x.name != lastPrefab.name);
+            float sqrDistance = (Vector3.zero - Game.Get().GetTarget().position).sqrMagnitude;
+
+            limitedPrefabs = prefabs.FindAll(x => x.canRepeat || x.name != lastPrefab.name || x.startAt * x.startAt <= sqrDistance);
         }
         else
         {

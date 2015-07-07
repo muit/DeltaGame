@@ -25,12 +25,12 @@ public class Menu : MonoBehaviour {
 	}
 
     public void ShowSeed() {
-        seedInput.text = FindObjectOfType<SaveLoad>().LoadSeed();
+        seedInput.text = cache.LoadSeed();
         //Load marks
         bestMarks.PopulateList(cache.LoadBestMark(seedInput.text));
     }
     public void SaveSeed() {
-        FindObjectOfType<SaveLoad>().SaveSeed(seedInput.text);
+        cache.SaveSeed(seedInput.text);
         //Load marks
         cache.LoadBestMark(seedInput.text);
     }

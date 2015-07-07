@@ -140,8 +140,9 @@ public class Game : MonoBehaviour {
 
         game.pauseBestMark.text = game.hudBestMark.text;
         int actualBestMark = int.Parse(game.hudBestMark.text);
-        if (lastBestMark <= actualBestMark) {
+        if (lastBestMark < actualBestMark) {
             //Throw name selection
+            Debug.Log(actualBestMark);
             Game.GetCache().SaveBestMark(game.scene.seed, game.playerName.text, actualBestMark);
         }
         //Show 1 of each 4 times an ad

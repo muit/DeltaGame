@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -8,7 +9,7 @@ using System.Linq;
 public class SaveLoad : MonoBehaviour{
 
     public string seed;
-    public Dictionary<string, List<ScrollItem>> bestMarks = new Dictionary<string, List<ScrollItem>>();
+    public List<ScrollItem> bestMarks = new List<ScrollItem>();
 
     public string[] randomNames;
 
@@ -50,39 +51,43 @@ public class SaveLoad : MonoBehaviour{
         }
 
         if (bestMarks == null) {
-            bestMarks = new Dictionary<string, List<ScrollItem>>();
+            bestMarks = new List<ScrollItem>();
         }
 
-        if (!bestMarks.ContainsKey(seed)) {
-            bestMarks.Add(seed, new List<ScrollItem>());
-        }
+        bestMarks.Add(new ScrollItem(name, points));
 
-        bestMarks[seed].Add(new ScrollItem(name, points));
-
-        bestMarks[seed] = bestMarks[seed].OrderByDescending(a => a.points).ToList();
-        if (bestMarks[seed].Count >= 10) {
+        bestMarks = bestMarks.OrderByDescending(a => a.points).ToList();
+        if (bestMarks.Count >= 10) {
             //Remove lower marks
-            bestMarks[seed].RemoveRange(10, bestMarks[seed].Count - 10);
+            bestMarks.RemoveRange(10, bestMarks.Count - 10);
         }
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/bestMarks.gd");
+        FileStream file = File.Create(Application.persistentDataPath + "/bestMarks_" + seed + ".gd");
         bf.Serialize(file, bestMarks);
         file.Close();
     }
 
+    public void LoadBestMark(InputField input)
+    {
+        Menu menu = FindObjectOfType<Menu>();
+        if(menu){
+            menu.bestMarks.PopulateList(LoadBestMark(input.text));
+        }
+    }
+
     public List<ScrollItem> LoadBestMark(string seed)
     {
-        if (File.Exists(Application.persistentDataPath + "/bestMarks.gd"))
+        if (File.Exists(Application.persistentDataPath + "/bestMarks_" + seed + ".gd"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/bestMarks.gd", FileMode.Open);
-            bestMarks = (Dictionary<string, List<ScrollItem>>)bf.Deserialize(file);
+            FileStream file = File.Open(Application.persistentDataPath + "/bestMarks_"+seed+".gd", FileMode.Open);
+            bestMarks = (List<ScrollItem>)bf.Deserialize(file);
             file.Close();
-            if (bestMarks != null && bestMarks[seed] != null)
+            if (bestMarks != null)
             {
-                bestMarks[seed] = bestMarks[seed].OrderByDescending(a => a.points).ToList();
-                return bestMarks[seed];
+                bestMarks = bestMarks.OrderByDescending(a => a.points).ToList();
+                return bestMarks;
             }
         }
         return null;
