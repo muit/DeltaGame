@@ -56,11 +56,11 @@ public class UnityAdsHelper : MonoBehaviour
 		}
 		else
 		{
-			Advertisement.debugLevel = Advertisement.DebugLevel.NONE;	
-			if (showInfoLogs) Advertisement.debugLevel    |= Advertisement.DebugLevel.INFO;
-			if (showDebugLogs) Advertisement.debugLevel   |= Advertisement.DebugLevel.DEBUG;
-			if (showWarningLogs) Advertisement.debugLevel |= Advertisement.DebugLevel.WARNING;
-			if (showErrorLogs) Advertisement.debugLevel   |= Advertisement.DebugLevel.ERROR;
+			Advertisement.debugLevel = Advertisement.DebugLevel.None;	
+			if (showInfoLogs) Advertisement.debugLevel    |= Advertisement.DebugLevel.Info;
+			if (showDebugLogs) Advertisement.debugLevel   |= Advertisement.DebugLevel.Debug;
+			if (showWarningLogs) Advertisement.debugLevel |= Advertisement.DebugLevel.Warning;
+			if (showErrorLogs) Advertisement.debugLevel   |= Advertisement.DebugLevel.Error;
 			
 			if (enableTestMode && !Debug.isDebugBuild)
 			{
@@ -140,14 +140,13 @@ public class UnityAdsHelper : MonoBehaviour
 			
 			ShowOptions options = new ShowOptions();
 			options.resultCallback = HandleShowResult;
-			options.pause = true;
 
 			Advertisement.Show(zoneID,options);
 		}
 		else 
 		{
 			Debug.LogWarning(string.Format("Unable to show ad. The ad placement zone {0} is not ready.",
-			                               object.ReferenceEquals(zoneID,null) ? "default" : zoneID));
+			    object.ReferenceEquals(zoneID,null) ? "default" : zoneID));
 		}
 	}
 

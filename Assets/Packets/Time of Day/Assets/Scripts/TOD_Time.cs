@@ -20,10 +20,33 @@ public class TOD_Time : MonoBehaviour
     public bool ProgressMoonPhase = true;
 
     private TOD_Sky sky;
+    private float hour = 12;
+    private int day = 1;
+    private int month = 3;
+    private int year = 2000;
+    private float moonPhase = 0;
+
 
     protected void Start()
     {
         sky = GetComponent<TOD_Sky>();
+
+        //Set start values
+        hour = sky.Cycle.Hour;
+        day = sky.Cycle.Day;
+        month = sky.Cycle.Month;
+        moonPhase = sky.Cycle.MoonPhase;
+    }
+
+    public void Reset()
+    {
+        if (sky)
+        {
+            sky.Cycle.Hour = hour;
+            sky.Cycle.Day = day;
+            sky.Cycle.Month = month;
+            sky.Cycle.MoonPhase = moonPhase;
+        }
     }
 
     protected void Update()

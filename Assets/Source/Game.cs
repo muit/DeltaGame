@@ -21,7 +21,7 @@ public class Game : MonoBehaviour {
     public Spawn activeSpawn;
     public List<Spawn> spawns;
     public Scene scene;
-
+    public TOD_Time skyTime;
     public ShowAd ads;
 
     public Text hudMeters;
@@ -125,6 +125,8 @@ public class Game : MonoBehaviour {
 
         game.hudBestMark.text = game.pauseBestMark.text;
         lastBestMark = int.Parse(game.pauseBestMark.text);
+        
+        game.skyTime.Reset();
     }
 
     public static void PauseGame() {
@@ -140,9 +142,8 @@ public class Game : MonoBehaviour {
 
         game.pauseBestMark.text = game.hudBestMark.text;
         int actualBestMark = int.Parse(game.hudBestMark.text);
-        if (lastBestMark < actualBestMark) {
+        if (lastBestMark < actualBestMark && Game.GetCache()) {
             //Throw name selection
-            Debug.Log(actualBestMark);
             Game.GetCache().SaveBestMark(game.scene.seed, game.playerName.text, actualBestMark);
         }
         //Show 1 of each 4 times an ad
