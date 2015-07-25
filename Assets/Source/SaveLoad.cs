@@ -9,9 +9,12 @@ using System.Linq;
 public class SaveLoad : MonoBehaviour{
 
     public string seed;
+    [Space(10)]
+    public bool seedMarks = true;
+    public string[] randomNames;
+    [Space(10)]
     public List<ScrollItem> bestMarks = new List<ScrollItem>();
 
-    public string[] randomNames;
 
     void Start() {
         DontDestroyOnLoad(this);
@@ -36,11 +39,14 @@ public class SaveLoad : MonoBehaviour{
             file.Close();
             return seed;
         }
-        return null;
+        return "";
     }
 
     public void SaveBestMark(string seed, string name, int points)
     {
+        if (!seedMarks)
+            seed = "default";
+
         LoadBestMark(seed);
 
         if (name == null || name == "") {
@@ -78,6 +84,9 @@ public class SaveLoad : MonoBehaviour{
 
     public List<ScrollItem> LoadBestMark(string seed)
     {
+        if (!seedMarks)
+            seed = "default";
+
         if (File.Exists(Application.persistentDataPath + "/bestMarks_" + seed + ".gd"))
         {
             BinaryFormatter bf = new BinaryFormatter();
