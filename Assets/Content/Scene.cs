@@ -6,6 +6,7 @@ using System.Text;
 public class Scene : MonoBehaviour {
     public string seed = "";
     public float renderDistance = 10.0f;
+    public int zOffset = 0;
     [Space(10)]
     public int distanceBetweenPrefabs = 8;
     public List<FloorPrefab> prefabs = new List<FloorPrefab>();
@@ -56,6 +57,7 @@ public class Scene : MonoBehaviour {
 
 
         lastPoint = transform.position;
+        lastPoint.z += zOffset;
 
         if (game.controlledPlayer)
         {

@@ -172,4 +172,9 @@ public class Game : MonoBehaviour {
     public Transform GetTarget() {
         return (controlledPlayer != null)? controlledPlayer.transform : activeSpawn.transform;
     }
+
+    public void PlayerSpawned(CPlayer player) {
+        this.controlledPlayer = player;
+        coins.OnPlayerSpawned(player);
+    }
 }

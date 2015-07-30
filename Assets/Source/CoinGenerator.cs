@@ -35,13 +35,16 @@ public class CoinGenerator : MonoBehaviour {
 
         Reset();
 	}
-	
+
+    public void OnPlayerSpawned(CPlayer player)
+    {
+        this.player = player.transform;
+    }
+
 	void Update ()
     {
         if (!player)
-        {
-            player = Game.Get().controlledPlayer.transform;
-        }
+            return;
 
         float z = Mathf.Floor(player.position.z) + renderDistance;
 

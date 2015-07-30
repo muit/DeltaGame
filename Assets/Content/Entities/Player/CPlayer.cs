@@ -33,7 +33,7 @@ public class CPlayer : Entity
         //Set up controlled player reference
         if (tno.isMine)
         {
-            game.controlledPlayer = this;
+            game.PlayerSpawned(this);
         }
         else {
             GetComponent<AudioListener>().enabled = false;
