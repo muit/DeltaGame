@@ -21,6 +21,7 @@ public class Game : MonoBehaviour {
     public Spawn activeSpawn;
     public List<Spawn> spawns;
     public Scene scene;
+    public CoinGenerator coins;
     public TOD_Time skyTime;
     public ShowAd ads;
 
@@ -139,6 +140,7 @@ public class Game : MonoBehaviour {
         Game game = Get();
         game.controlledPlayer.Respawn(false);
         game.inControlTouch.controlsEnabled = false;
+        game.coins.Reset();
 
         game.pauseBestMark.text = game.hudBestMark.text;
         int actualBestMark = int.Parse(game.hudBestMark.text);
@@ -147,7 +149,7 @@ public class Game : MonoBehaviour {
             Game.GetCache().SaveBestMark(game.scene.seed, game.playerName.text, actualBestMark);
         }
         //Show 1 of each 4 times an ad
-        if (game.adsEnabled && Random.Range(0f, 4f) > 3f) {
+        if (game.adsEnabled && Random.Range(0, 4) > 3) {
             game.ads.Show();
         }
     }

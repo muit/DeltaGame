@@ -5,7 +5,6 @@ using System.Text;
 
 public class Scene : MonoBehaviour {
     public string seed = "";
-    public Vector3 startPosition;
     public float renderDistance = 10.0f;
     [Space(10)]
     public int distanceBetweenPrefabs = 8;
@@ -56,7 +55,7 @@ public class Scene : MonoBehaviour {
         Random.seed = int.Parse(finalSeed);
 
 
-        lastPoint = startPosition;
+        lastPoint = transform.position;
 
         if (game.controlledPlayer)
         {
@@ -124,6 +123,10 @@ public class Scene : MonoBehaviour {
             }
         }
         return finalText;
+    }
+
+    public Vector3 GetGenerationPoint() {
+        return lastPoint;
     }
 }
 

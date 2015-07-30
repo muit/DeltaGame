@@ -9,10 +9,12 @@ public class Coin : PickUp {
 	}
     
     void OnTriggerEnter(Collider col) {
-        CPlayer player = col.GetComponentInParent<CPlayer>();
+        CPlayer player = col.GetComponent<CPlayer>();
         if (player)
         {
             player.CollectMoney(this);
+            Game.Get().coins.PlaySound();
+            GameObject.Destroy(gameObject, 0.1f);
         }
     }
 
